@@ -4,7 +4,7 @@ public class Theme
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = default!;
-    public string Number { get; set; } = default!;
+    public int Number { get; set; } = default!;
     public string Letter { get; set; } = default!;
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

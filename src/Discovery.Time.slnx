@@ -1,10 +1,12 @@
 <Solution>
   <Folder Name="/ApiGateway/" />
   <Folder Name="/Aspire/" />
-  <Folder Name="/BuildingBlocks/" />
+  <Folder Name="/BuildingBlocks/">
+    <Project Path="../../../../../../../../Development/discovery-time/src/BuildingBlocks/BuildingBlocks.csproj" Id="8db72bc1-e03a-43ee-9281-502017118622" />
+  </Folder>
   <Folder Name="/Services/" />
   <Folder Name="/Services/Theme/">
-    <Project Path="Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
+    <Project Path="../../../../../../../../Development/discovery-time/src/Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
   </Folder>
   <Folder Name="/Tests/" />
   <Folder Name="/WebApps/" />
