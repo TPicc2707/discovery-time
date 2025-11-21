@@ -1,7 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.AddServiceDefaults();
+builder.AddNpgsqlDataSource("themeDb");
+
 var assembly = typeof(Program).Assembly;
+
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
@@ -15,7 +20,7 @@ builder.Services.AddCarter();
 
 builder.Services.AddMarten(opts =>
 {
-    opts.Connection(builder.Configuration.GetConnectionString("leagueDb")!);
+    opts.Connection(builder.Configuration.GetConnectionString("themeDb")!);
 }).UseLightweightSessions();
 
 if (builder.Environment.IsDevelopment())
@@ -43,6 +48,8 @@ builder.Services.AddCors(options =>
 // Configure the HTTP request pipeline.
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
+
 //app.UseAuthentication();
 
 //app.UseAuthorization();
@@ -53,11 +60,11 @@ app.UseCors();
 
 app.UseExceptionHandler(options => { });
 
-//app.MapHealthChecks("/healthz",
-//    new HealthCheckOptions
-//    {
-//        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-//    }).RequireAuthorization(KeycloakPolicy.SupportLeaguePolicy);
+app.MapHealthChecks("/healthz",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
 
 app.UseHttpsRedirection();

@@ -1,12 +1,15 @@
 <Solution>
   <Folder Name="/ApiGateway/" />
-  <Folder Name="/Aspire/" />
+  <Folder Name="/Aspire/">
+    <Project Path="Aspire/Discovery.Time.AppHost/Discovery.Time.AppHost.csproj" Id="777e08e3-b208-41e7-949b-12233e6919d6" />
+    <Project Path="Aspire/Discovery.Time.ServiceDefaults/Discovery.Time.ServiceDefaults.csproj" Id="348b3d74-607c-47ad-845f-043d79ea87d5" />
+  </Folder>
   <Folder Name="/BuildingBlocks/">
-    <Project Path="../../../../../../../../Development/discovery-time/src/BuildingBlocks/BuildingBlocks.csproj" Id="8db72bc1-e03a-43ee-9281-502017118622" />
+    <Project Path="BuildingBlocks/BuildingBlocks.csproj" Id="8db72bc1-e03a-43ee-9281-502017118622" />
   </Folder>
   <Folder Name="/Services/" />
   <Folder Name="/Services/Theme/">
-    <Project Path="../../../../../../../../Development/discovery-time/src/Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
+    <Project Path="Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
   </Folder>
   <Folder Name="/Tests/" />
   <Folder Name="/WebApps/" />
