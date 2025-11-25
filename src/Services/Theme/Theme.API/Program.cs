@@ -37,8 +37,8 @@ builder.Services.AddCors(options =>
     .AllowAnyMethod());
 });
 
-//builder.Services.AddHealthChecks()
-//    .AddNpgSql(builder.Configuration.GetConnectionString("leagueDb")!);
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("themeDb")!);
 
 //builder.Services.AddCustomAuthentication();
 

@@ -5,9 +5,9 @@ public record CreateThemeCommand(string Name, int Number, string Letter, DateTim
 
 public record CreateThemeResult(Guid Id);
 
-public class CreateThemeValidator : AbstractValidator<CreateThemeCommand>
+public class CreateThemeCommandValidator : AbstractValidator<CreateThemeCommand>
 {
-    public CreateThemeValidator()
+    public CreateThemeCommandValidator()
     {
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required")
             .Length(2, 150).WithMessage("Name must be between 2 and 150 characters");
@@ -17,10 +17,12 @@ public class CreateThemeValidator : AbstractValidator<CreateThemeCommand>
             .Length(2).WithMessage("Letter must be 2 characters");
         RuleFor(x => x.StartDate).NotEmpty().WithMessage("Start Date is required.");
         RuleFor(x => x.EndDate).NotEmpty().WithMessage("End Date is required.");
+        RuleFor(x => x.CreatedBy).NotEmpty().WithMessage("Created By is required.");
+        RuleFor(x => x.ModifiedBy).NotEmpty().WithMessage("Modified By is required.");
     }
 }
 
-internal class CreateThemeHandler
+public class CreateThemeHandler
     (IDocumentSession documentSession)
     : ICommandHandler<CreateThemeCommand, CreateThemeResult>
 {

@@ -12,5 +12,11 @@
     <Project Path="Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
   </Folder>
   <Folder Name="/Tests/" />
+  <Folder Name="/Tests/Common/">
+    <Project Path="Tests/Common/Discovery.Time.Tests.Data/Discovery.Time.Tests.Data.csproj" Id="3dbf3136-2b6f-4879-bb99-8aa9ec691b20" />
+  </Folder>
+  <Folder Name="/Tests/Theme/">
+    <Project Path="Tests/Theme/Theme.API.Tests/Theme.API.Tests.csproj" Id="00ed8f00-3762-495d-9735-c3c97f0ad24b" />
+  </Folder>
   <Folder Name="/WebApps/" />
 </Solution>

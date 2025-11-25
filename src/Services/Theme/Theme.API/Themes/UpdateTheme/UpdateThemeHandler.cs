@@ -18,6 +18,7 @@ public class UpdateThemeCommandValidator : AbstractValidator<UpdateThemeCommand>
             .Length(2).WithMessage("Letter must be 2 characters");
         RuleFor(x => x.StartDate).NotEmpty().WithMessage("Start Date is required.");
         RuleFor(x => x.EndDate).NotEmpty().WithMessage("End Date is required.");
+        RuleFor(x => x.ModifiedBy).NotEmpty().WithMessage("Modified By is required.");
     }
 }
 
