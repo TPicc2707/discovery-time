@@ -21,7 +21,6 @@ public class CreateThemeEndpoint : ICarterModule
         .WithName("CreateTheme")
         .Produces<CreateThemeResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Create Theme")
         .WithDescription("Create Theme");
     }

@@ -17,7 +17,6 @@ public class DeleteThemeEndpoint : ICarterModule
         .WithName("DeleteTheme")
         .Produces<DeleteThemeResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Delete Theme")
         .WithDescription("Delete Theme");
