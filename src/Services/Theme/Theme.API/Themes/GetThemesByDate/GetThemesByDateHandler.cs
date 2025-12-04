@@ -1,14 +1,14 @@
 ﻿namespace Theme.API.Themes.GetThemesByDate;
 
-public record GetThemesByDateCommand(DateTime Date) : IQuery<GetThemesByDateResult>;
+public record GetThemesByDateQuery(DateTime Date) : IQuery<GetThemesByDateResult>;
 
 public record GetThemesByDateResult(IEnumerable<Models.Theme> Themes);
 
 public class GetThemesByDateHandler
     (IDocumentSession documentSession)
-    : IQueryHandler<GetThemesByDateCommand, GetThemesByDateResult>
+    : IQueryHandler<GetThemesByDateQuery, GetThemesByDateResult>
 {
-    public async Task<GetThemesByDateResult> Handle(GetThemesByDateCommand query, CancellationToken cancellationToken)
+    public async Task<GetThemesByDateResult> Handle(GetThemesByDateQuery query, CancellationToken cancellationToken)
     {
         var themes = await documentSession.Query<Models.Theme>()
                 .Where(x => x.StartDate != null && x.EndDate != null)

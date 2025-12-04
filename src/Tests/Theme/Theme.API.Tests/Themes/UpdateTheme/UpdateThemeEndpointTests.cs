@@ -4,7 +4,7 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
 {
     public readonly HttpClient _httpClient;
     public readonly JsonSerializerOptions _jsonSerializerOptions;
-    private readonly RandomGenerator randomGenerator;
+    private readonly Faker _faker;
     private readonly MartenTestWebApplicationFactory<Program> _factory;
     private readonly IDocumentStore _store;
 
@@ -13,7 +13,7 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         _factory = factory;
         _httpClient = _factory.CreateClient();
         _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
-        randomGenerator = new RandomGenerator();
+        _faker = new Faker();
         _store = _factory.Services.GetRequiredService<IDocumentStore>();
     }
 
@@ -25,9 +25,9 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         var createTheme = new Models.Theme
         {
             Id = Guid.NewGuid(),
-            Name = randomGenerator.RandomString(20),
+            Name = _faker.Random.String(20),
             Number = 1,
-            Letter = randomGenerator.RandomString(2),
+            Letter = _faker.Random.String(2),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
             CreatedBy = "Tester",
@@ -40,7 +40,7 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
             await session.SaveChangesAsync();
         }
 
-        var request = new UpdateThemeRequest(createTheme.Id, randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester");
+        var request = new UpdateThemeRequest(createTheme.Id, _faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester");
         var stopwatch = Stopwatch.StartNew();
 
         //Act
@@ -51,13 +51,15 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         //Assert
         _factory.AssertResponseWithContentAsync(stopwatch, response, expectedStatusCode, responseContent);
         Assert.True(responseContent.IsSuccess);
+
+        await _store.Advanced.Clean.DeleteAllDocumentsAsync(); //Clean up after test
     }
 
     [Fact]
     public async Task UpdateThemeEndpoint_MapPut_WhenCalled_Should_Return_Not_Found_Result()
     {
         //Arrange
-        var request = new UpdateThemeRequest(Guid.NewGuid(), randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester");
+        var request = new UpdateThemeRequest(Guid.NewGuid(), _faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester");
 
         //Act/Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => _httpClient.PutAsync("/themes", _factory.GetJsonStringContent(request)));
@@ -83,7 +85,7 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
     public async Task UpdateThemeEndpoint_MapPut_WhenCalled_With_Validation_Error_Should_Return_Invalid_Operation_Exception_Result()
     {
         //Arrange
-        var request = new UpdateThemeRequest(Guid.NewGuid(), randomGenerator.RandomString(20), 1, randomGenerator.RandomString(3), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester"); //bad data
+        var request = new UpdateThemeRequest(Guid.NewGuid(), _faker.Random.String(20), 1, _faker.Random.String(3), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester"); //bad data
 
 
         //Act/Assert
@@ -95,7 +97,7 @@ public class UpdateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
     {
         //Arrange
         await _factory.PostgresContainer.StopAsync(); //Simulate a down database
-        var request = new UpdateThemeRequest(Guid.NewGuid(), randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester"); //bad data
+        var request = new UpdateThemeRequest(Guid.NewGuid(), _faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester"); //bad data
 
         //Act/Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => _httpClient.PutAsync("/themes", _factory.GetJsonStringContent(request)));

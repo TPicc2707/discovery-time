@@ -20,7 +20,7 @@ public class GetThemesEndpoint : ICarterModule
         })
         .WithName("GetThemes")
         .Produces<GetThemesResponse>(StatusCodes.Status200OK)
-        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Get Themes")
         .WithDescription("Get Themes");
     }

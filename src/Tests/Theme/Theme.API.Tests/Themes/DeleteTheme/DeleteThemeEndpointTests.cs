@@ -4,7 +4,7 @@ public class DeleteThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
 {
     public readonly HttpClient _httpClient;
     public readonly JsonSerializerOptions _jsonSerializerOptions;
-    private readonly RandomGenerator randomGenerator;
+    private readonly Faker _faker;
     private readonly MartenTestWebApplicationFactory<Program> _factory;
     private readonly IDocumentStore _store;
 
@@ -13,7 +13,7 @@ public class DeleteThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         _factory = factory;
         _httpClient = _factory.CreateClient();
         _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
-        randomGenerator = new RandomGenerator();
+        _faker = new Faker();
         _store = _factory.Services.GetRequiredService<IDocumentStore>();
     }
 
@@ -25,9 +25,9 @@ public class DeleteThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         var createTheme = new Models.Theme
         {
             Id = Guid.NewGuid(),
-            Name = randomGenerator.RandomString(20),
+            Name = _faker.Random.String(20),
             Number = 1,
-            Letter = randomGenerator.RandomString(2),
+            Letter = _faker.Random.String(2),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
             CreatedBy = "Tester",
@@ -51,6 +51,8 @@ public class DeleteThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         //Assert
         _factory.AssertResponseWithContentAsync(stopwatch, response, expectedStatusCode, responseContent);
         Assert.True(responseContent.IsSuccess);
+
+        await _store.Advanced.Clean.DeleteAllDocumentsAsync(); //Clean up after test
     }
 
     [Fact]

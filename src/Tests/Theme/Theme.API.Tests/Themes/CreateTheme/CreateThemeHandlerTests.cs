@@ -4,13 +4,13 @@ public class CreateThemeHandlerTests
 {
     private readonly IMockNSubstituteMethods _mockingFramework;
     private readonly CreateThemeCommandValidator _createThemeCommandValidator;
-    private readonly RandomGenerator randomGenerator;
+    private readonly Faker _faker;
 
     public CreateThemeHandlerTests()
     {
         _mockingFramework = Helper.GetRequiredService<IMockNSubstituteMethods>() ?? throw new ArgumentNullException(nameof(IMockNSubstituteMethods));
         _createThemeCommandValidator = new CreateThemeCommandValidator();
-        randomGenerator = new RandomGenerator();
+        _faker = new Faker();
     }
 
     #region CreateThemeHandler Tests
@@ -19,7 +19,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeHandler_Handle_WhenCalled_Should_Return_Expected_Result()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
 
@@ -40,7 +40,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeHandler_Handle_WhenCalled_Should_Return_ArgumentNullException_Result()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
 
@@ -56,7 +56,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeHandler_Handle_WhenCalled_Should_Return_Exception_Result()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
         var expected = "Foo";
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
 
@@ -76,7 +76,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_Expected_Result()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -95,7 +95,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_All_Validation_Exceptions()
     {
         //Arrange
-        var command = new CreateThemeCommand(null, -1, randomGenerator.RandomString(1), new DateTime(), new DateTime(), null, null);
+        var command = new CreateThemeCommand(null, -1, _faker.Random.String(1), new DateTime(), new DateTime(), null, null);
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -115,8 +115,8 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_Name_Is_Not_Valid_Length()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(1), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
-        var command1 = new CreateThemeCommand(randomGenerator.RandomString(151), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(1), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command1 = new CreateThemeCommand(_faker.Random.String(151), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -145,8 +145,8 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_Number_Validation()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), -1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
-        var command1 = new CreateThemeCommand(randomGenerator.RandomString(20), 101, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), -1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command1 = new CreateThemeCommand(_faker.Random.String(20), 101, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -176,8 +176,8 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_Letter_Length_Validation()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(1), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
-        var command1 = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(3), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(1), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command1 = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(3), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -206,7 +206,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_StartDate_Validation()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), new DateTime(), DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), new DateTime(), DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -227,7 +227,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_EndDate_Validation()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, new DateTime(), "Tester", "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, new DateTime(), "Tester", "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -247,7 +247,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_CreatedBy_Validation()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), null, "Tester");
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), null, "Tester");
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);
@@ -267,7 +267,7 @@ public class CreateThemeHandlerTests
     public async Task CreateThemeCommandValidator_ValidateTheme_When_CreateThemeCommand_Object_Called_Should_Return_ModifiedBy_Validation()
     {
         //Arrange
-        var command = new CreateThemeCommand(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", null);
+        var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", null);
 
         //Act
         var result = await _createThemeCommandValidator.TestValidateAsync(command);

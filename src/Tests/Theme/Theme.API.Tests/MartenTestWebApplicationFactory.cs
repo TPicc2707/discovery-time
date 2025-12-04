@@ -2,7 +2,7 @@
 
 public class MartenTestWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram>, IAsyncLifetime where TProgram : class
 {
-    public readonly PostgreSqlContainer PostgresContainer = new PostgreSqlBuilder().WithDatabase("testdb").WithUsername("marten_user").WithPassword("marten_password").Build();
+    internal readonly PostgreSqlContainer PostgresContainer = new PostgreSqlBuilder().WithDatabase("testdb").WithUsername("marten_user").WithPassword("marten_password").Build();
     public const string _jsonMediaType = "application/json";
     public const int _expectedMaxElaspedMilliseconds = 20000;
 

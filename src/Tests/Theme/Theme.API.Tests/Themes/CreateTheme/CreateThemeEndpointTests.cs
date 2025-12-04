@@ -4,7 +4,7 @@ public class CreateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
 {
     public readonly HttpClient _httpClient;
     public readonly JsonSerializerOptions _jsonSerializerOptions;
-    private readonly RandomGenerator randomGenerator;
+    private readonly Faker _faker;
     private readonly MartenTestWebApplicationFactory<Program> _factory;
 
     public CreateThemeEndpointTests(MartenTestWebApplicationFactory<Program> factory)
@@ -12,7 +12,7 @@ public class CreateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
         _factory = factory;
         _httpClient = _factory.CreateClient();
         _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
-        randomGenerator = new RandomGenerator();
+        _faker = new Faker();
     }
 
     [Fact]
@@ -20,7 +20,7 @@ public class CreateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
     {
         //Arrange
         var expectedStatusCode = System.Net.HttpStatusCode.Created;
-        var request = new CreateThemeRequest(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var request = new CreateThemeRequest(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
         var stopwatch = Stopwatch.StartNew();
 
         //Act
@@ -53,7 +53,7 @@ public class CreateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
     public async Task CreateThemeEndpoint_MapPost_WhenCalled_With_Validation_Error_Should_Return_Invalid_Operation_Exception_Result()
     {
         //Arrange
-        var request = new CreateThemeRequest(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(3), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester"); //bad data
+        var request = new CreateThemeRequest(_faker.Random.String(20), 1, _faker.Random.String(3), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester"); //bad data
 
 
         //Act/Assert
@@ -65,7 +65,7 @@ public class CreateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
     {
         //Arrange
         await _factory.PostgresContainer.StopAsync(); //Simulate a down database
-        var request = new CreateThemeRequest(randomGenerator.RandomString(20), 1, randomGenerator.RandomString(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
+        var request = new CreateThemeRequest(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         //Act/Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => _httpClient.PostAsync("/themes", _factory.GetJsonStringContent(request)));

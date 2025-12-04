@@ -42,6 +42,13 @@ public class MockingTestingFramework : IMockNSubstituteMethods, IMockMethods
         return obj;
     }
 
+    public T SetupReturnsNonTaskResult<T, TResult>(T obj, Expression<Action<T>> expression, object[] parameters, TResult result) where T : class
+    {
+        MethodInfo method = ((MethodCallExpression)expression.Body).Method;
+        method.Invoke(obj, parameters).Returns(result);
+        return obj;
+    }
+
     public T SetupReturnsResult<T, TResult>(T obj, Expression<Func<T, Task<TResult>>> expression, TResult result) where T : class
     {
         MethodInfo method = ((MethodCallExpression)expression.Body).Method;

@@ -8,7 +8,7 @@ public class GetThemesByDateEndpoint : ICarterModule
     {
         app.MapGet("/themes/date/{date}", async (DateTime date, ISender sender) =>
         {
-            var result = await sender.Send(new GetThemesByDateCommand(date));
+            var result = await sender.Send(new GetThemesByDateQuery(date));
 
             var response = result.Adapt<GetThemesByDateResponse>();
 

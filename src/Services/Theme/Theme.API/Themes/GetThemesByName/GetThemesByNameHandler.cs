@@ -12,7 +12,7 @@ public class GetThemesByNameHandler
     public async Task<GetThemesByNameResult> Handle(GetThemesByNameQuery query, CancellationToken cancellationToken)
     {
         var themes = await documentSession.Query<Models.Theme>()
-            .Where(t => query.Name.ToLower().Contains(query.Name.ToLower()))
+            .Where(t => t.Name.ToLower().Contains(query.Name.ToLower()))
             .ToListAsync();
 
         return new GetThemesByNameResult(themes);
