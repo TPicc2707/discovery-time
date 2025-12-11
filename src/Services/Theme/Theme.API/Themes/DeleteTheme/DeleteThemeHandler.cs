@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Themes.DeleteTheme;
+﻿using MassTransit;
+
+namespace Theme.API.Themes.DeleteTheme;
 
 public record DeleteThemeCommand(Guid Id) : ICommand<DeleteThemeResult>;
 
@@ -13,7 +15,7 @@ public class DeleteThemeCommandValidator : AbstractValidator<DeleteThemeCommand>
 }
 
 public class DeleteThemeHandler
-    (IDocumentSession documentSession)
+    (IDocumentSession documentSession, IPublishEndpoint publishEndpoint)
     : ICommandHandler<DeleteThemeCommand, DeleteThemeResult>
 {
     public async Task<DeleteThemeResult> Handle(DeleteThemeCommand command, CancellationToken cancellationToken)
@@ -21,13 +23,12 @@ public class DeleteThemeHandler
         documentSession.Delete<Models.Theme>(command.Id);
         await documentSession.SaveChangesAsync(cancellationToken);
 
-        // Uncomment When Messaging service is created
-        //var eventMessage = new LeagueDeletionEvent()
-        //{
-        //    Id = command.Id
-        //};
+        var eventMessage = new ThemeDeletionEvent()
+        {
+            Id = command.Id
+        };
 
-        //await publishEndpoint.Publish(eventMessage, cancellationToken);
+        await publishEndpoint.Publish(eventMessage, cancellationToken);
 
         return new DeleteThemeResult(true);
     }

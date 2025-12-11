@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Themes.UpdateTheme;
+﻿using MassTransit;
+
+namespace Theme.API.Themes.UpdateTheme;
 
 public record UpdateThemeCommand(Guid Id, string Name, int Number, string Letter, DateTime StartDate, DateTime EndDate, string ModifiedBy)
     : ICommand<UpdateThemeResult>;
@@ -23,7 +25,7 @@ public class UpdateThemeCommandValidator : AbstractValidator<UpdateThemeCommand>
 }
 
 public class UpdateThemeHandler
-    (IDocumentSession documentSession)
+    (IDocumentSession documentSession, IPublishEndpoint publishEndpoint)
     : ICommandHandler<UpdateThemeCommand, UpdateThemeResult>
 {
     public async Task<UpdateThemeResult> Handle(UpdateThemeCommand command, CancellationToken cancellationToken)
@@ -44,10 +46,9 @@ public class UpdateThemeHandler
         documentSession.Update(theme);
         await documentSession.SaveChangesAsync(cancellationToken);
 
-        // Uncomment When Messaging service is created
-        //var eventMessage = league.Adapt<LeagueUpdatedEvent>();
+        var eventMessage = theme.Adapt<ThemeUpdatedEvent>();
 
-        //await publishEndpoint.Publish(eventMessage, cancellationToken);
+        await publishEndpoint.Publish(eventMessage, cancellationToken);
 
         return new UpdateThemeResult(true);
 

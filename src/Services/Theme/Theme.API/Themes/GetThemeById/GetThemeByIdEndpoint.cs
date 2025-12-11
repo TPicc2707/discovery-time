@@ -14,11 +14,11 @@ public class GetThemeByIdEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("GetLeagueById")
+        .WithName("GetThemeById")
         .Produces<GetThemeByIdResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
-        .WithSummary("Get League By Id")
-        .WithDescription("Get League By Id");
+        .WithSummary("Get Theme By Id")
+        .WithDescription("Get Theme By Id");
     }
 }

@@ -26,8 +26,9 @@ builder.Services.AddMarten(opts =>
 if (builder.Environment.IsDevelopment())
     builder.Services.InitializeMartenWith<ThemeInitialData>();
 
-// Uncomment once Messaging Service is created
-//builder.Services.AddMessageBroker(Assembly.GetExecutingAssembly());
+builder.Services.AddMessageBroker(Assembly.GetExecutingAssembly());
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddCors(options =>
 {
@@ -65,9 +66,5 @@ app.MapHealthChecks("/healthz",
     {
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
-
-
-app.UseHttpsRedirection();
-
 
 app.Run();

@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Themes.CreateTheme;
+﻿using MassTransit;
+
+namespace Theme.API.Themes.CreateTheme;
 
 public record CreateThemeCommand(string Name, int Number, string Letter, DateTime StartDate, DateTime EndDate, string CreatedBy, string ModifiedBy)
     : ICommand<CreateThemeResult>;
@@ -23,7 +25,7 @@ public class CreateThemeCommandValidator : AbstractValidator<CreateThemeCommand>
 }
 
 public class CreateThemeHandler
-    (IDocumentSession documentSession)
+    (IDocumentSession documentSession, IPublishEndpoint publishEndpoint)
     : ICommandHandler<CreateThemeCommand, CreateThemeResult>
 {
     public async Task<CreateThemeResult> Handle(CreateThemeCommand command, CancellationToken cancellationToken)
@@ -44,10 +46,9 @@ public class CreateThemeHandler
         documentSession.Store(theme);
         await documentSession.SaveChangesAsync(cancellationToken);
 
-        // Uncomment When Messaging service is created
-        //var eventMessage = league.Adapt<ThemeCreationEvent>();
+        var eventMessage = theme.Adapt<ThemeCreationEvent>();
 
-        //await publishEndpoint.Publish(eventMessage, cancellationToken);
+        await publishEndpoint.Publish(eventMessage, cancellationToken);
 
         return new CreateThemeResult(theme.Id);
     }

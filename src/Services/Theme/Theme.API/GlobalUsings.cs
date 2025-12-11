@@ -12,3 +12,7 @@ global using MediatR;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Theme.API.Data;
 global using Theme.API.Exceptions;
+global using BuildingBlocks.Messaging.Events;
+global using BuildingBlocks.Messaging.MassTransit;
+global using BuildingBlocks.Exceptions.Handler;
+global using System.Reflection;

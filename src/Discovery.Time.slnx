@@ -5,9 +5,16 @@
     <Project Path="Aspire/Discovery.Time.ServiceDefaults/Discovery.Time.ServiceDefaults.csproj" Id="348b3d74-607c-47ad-845f-043d79ea87d5" />
   </Folder>
   <Folder Name="/BuildingBlocks/">
+    <Project Path="BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj" Id="c7ddd877-92be-403a-829a-67b3ff60a297" />
     <Project Path="BuildingBlocks/BuildingBlocks.csproj" Id="8db72bc1-e03a-43ee-9281-502017118622" />
   </Folder>
   <Folder Name="/Services/" />
+  <Folder Name="/Services/Activity/">
+    <Project Path="Activity.Application/Activity.Application.csproj" Id="b19b2b97-e9ad-4861-9eba-4fe03a4ed2c6" />
+    <Project Path="Services/Activity/Activity.API/Activity.API.csproj" Id="8c850ee8-263e-4225-943e-c433613e0dd5" />
+    <Project Path="Services/Activity/Activity.Domain/Activity.Domain.csproj" Id="b759875c-770f-49a2-a570-385b751c4447" />
+    <Project Path="Services/Activity/Activity.Infrastructure/Activity.Infrastructure.csproj" Id="cbd7dd98-9f38-4c4d-9f47-53a1fd4245cb" />
+  </Folder>
   <Folder Name="/Services/Theme/">
     <Project Path="Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
   </Folder>
