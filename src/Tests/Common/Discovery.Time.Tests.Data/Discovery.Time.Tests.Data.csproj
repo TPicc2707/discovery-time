@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Activity.Application\Activity.Application.csproj" />
     <ProjectReference Include="..\..\..\Services\Theme\Theme.API\Theme.API.csproj" />
   </ItemGroup>
 

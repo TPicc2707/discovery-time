@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Tests.Themes.GetThemeById;
+﻿using Discovery.Time.Tests.Data.MockData;
+
+namespace Theme.API.Tests.Themes.GetThemeById;
 
 public class GetThemeByIdHandlerTests
 {

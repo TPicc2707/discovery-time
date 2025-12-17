@@ -6,7 +6,7 @@ public class GetActivityById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("activites/{id}", async(Guid id, ISender sender) =>
+        app.MapGet("activities/{id}", async(Guid id, ISender sender) =>
         {
             var result = await sender.Send(new GetActivityByIdQuery(id));
 

@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Tests.Themes.GetThemesByName;
+﻿using Discovery.Time.Tests.Data.MockData;
+
+namespace Theme.API.Tests.Themes.GetThemesByName;
 
 public class GetThemesByNameEndpointTests : IClassFixture<MartenTestWebApplicationFactory<Program>>
 {

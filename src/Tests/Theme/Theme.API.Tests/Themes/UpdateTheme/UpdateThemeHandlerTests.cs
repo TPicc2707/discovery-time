@@ -1,4 +1,7 @@
-﻿using Bogus;
+﻿using Activity.Domain.Events;
+using Bogus;
+using BuildingBlocks.Messaging.Events;
+using MassTransit;
 
 namespace Theme.API.Tests.Themes.UpdateTheme;
 
@@ -38,7 +41,10 @@ public class UpdateThemeHandlerTests
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
         _mockingFramework.SetupReturnsResult(mockDocumentSession, x => x.LoadAsync<Models.Theme>(_mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>() }, theme);
-        var handler = new UpdateThemeHandler(mockDocumentSession);
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>() });
+
+        var handler = new UpdateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         var expected = true;
 
@@ -63,7 +69,10 @@ public class UpdateThemeHandlerTests
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
         _mockingFramework.SetupReturnsResult(mockDocumentSession, x => x.LoadAsync<Models.Theme>(_mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>() }, theme);
-        var handler = new UpdateThemeHandler(mockDocumentSession);
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>() });
+
+        var handler = new UpdateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act/Assert
         await Assert.ThrowsAsync<ThemeNotFoundException>(() => handler.Handle(command, new CancellationToken()));
@@ -89,10 +98,12 @@ public class UpdateThemeHandlerTests
         };
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
         _mockingFramework.SetupReturnsResult(mockDocumentSession, x => x.LoadAsync<Models.Theme>(_mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>() }, theme);
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>() });
 
         _mockingFramework.SetupThrowsException(mockDocumentSession, x => x.Update(_mockingFramework.GetObject<Models.Theme>()), new ArgumentNullException());
 
-        var handler = new UpdateThemeHandler(mockDocumentSession);
+        var handler = new UpdateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act/Assert
         await Assert.ThrowsAsync<ArgumentNullException>(() => handler.Handle(command, new CancellationToken()));
@@ -119,10 +130,12 @@ public class UpdateThemeHandlerTests
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
         var expected = "Foo";
         _mockingFramework.SetupReturnsResult(mockDocumentSession, x => x.LoadAsync<Models.Theme>(_mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<Guid>(), _mockingFramework.GetObject<CancellationToken>() }, theme);
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeUpdatedEvent>(), _mockingFramework.GetObject<CancellationToken>() });
 
         _mockingFramework.SetupThrowsException(mockDocumentSession, x => x.SaveChangesAsync(_mockingFramework.GetObject<CancellationToken>()), new Exception(expected));
 
-        var handler = new UpdateThemeHandler(mockDocumentSession);
+        var handler = new UpdateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act/Assert
         await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, new CancellationToken()));

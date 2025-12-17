@@ -6,10 +6,10 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
 
     public ThemeRepository(IApplicationDbContext dbContext, ILogger<Theme> logger) : base(dbContext, logger)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<List<Domain.Models.Activity>> GetAllThemeActivitiesAsync(int pageIndex, int pageSize)
+    public virtual async Task<List<Domain.Models.Activity>> GetAllThemeActivitiesAsync(int pageIndex, int pageSize)
     {
         try
         {
@@ -22,7 +22,7 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
         }
     }
 
-    public async Task<Domain.Models.Activity> GetThemeActivityByIdAsync(ActivityId activityId, CancellationToken cancellationToken)
+    public virtual async Task<Domain.Models.Activity> GetThemeActivityByIdAsync(ActivityId activityId, CancellationToken cancellationToken)
     {
         try
         {
@@ -40,11 +40,11 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
         }
     }
 
-    public async Task<List<Domain.Models.Activity>> GetAllThemeActivitiesByThemeIdAsync(ThemeId themeId, CancellationToken cancellationToken)
+    public virtual async Task<List<Domain.Models.Activity>> GetAllThemeActivitiesByThemeIdAsync(ThemeId themeId, CancellationToken cancellationToken)
     {
         try
         {
-            return await dbContext.Activities.Where(x => x.ThemeId == themeId).OrderBy(x => x.Name.Value).OrderBy(x => x.Name.Value).ToListAsync(cancellationToken);
+            return await dbContext.Activities.Where(x => x.ThemeId == themeId).OrderBy(x => x.Name.Value).ToListAsync(cancellationToken);
         }
         catch (FormatException ex)
         {
@@ -58,11 +58,11 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
         }
     }
 
-    public async Task<List<Domain.Models.Activity>> GetAllThemeActivitiesByNameAsync(ActivityName name, CancellationToken cancellationToken)
+    public virtual async Task<List<Domain.Models.Activity>> GetAllThemeActivitiesByNameAsync(ActivityName name, CancellationToken cancellationToken)
     {
         try
         {
-            return await dbContext.Activities.AsNoTracking().Where(x => x.Name == name).ToListAsync(cancellationToken);
+            return await dbContext.Activities.AsNoTracking().Where(x => x.Name.Value.ToLower().Contains(name.Value.ToLower())).ToListAsync(cancellationToken);
         }
         catch (Exception ex)
         {
@@ -71,7 +71,7 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
         }
     }
 
-    public async Task<long> GetThemeActivitiesLongCountAsync(CancellationToken cancellationToken)
+    public virtual async Task<long> GetThemeActivitiesLongCountAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -85,7 +85,7 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
 
     }
 
-    public async Task<Domain.Models.Activity> CreateThemeActivityAsync(Domain.Models.Activity activity)
+    public virtual async Task<Domain.Models.Activity> CreateThemeActivityAsync(Domain.Models.Activity activity)
     {
         try
         {
@@ -112,7 +112,7 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
         }
     }
 
-    public void UpdateThemeActivity(Domain.Models.Activity activity)
+    public virtual void UpdateThemeActivity(Domain.Models.Activity activity)
     {
         try
         {
@@ -137,7 +137,7 @@ public class ThemeRepository : BaseRepository<Theme>, IThemeRepository
         }
     }
 
-    public void RemoveThemeActivity(Domain.Models.Activity activity)
+    public virtual void DeleteThemeActivity(Domain.Models.Activity activity)
     {
         try
         {

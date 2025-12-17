@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Tests.Themes.GetThemes;
+﻿using Discovery.Time.Tests.Data.MockData;
+
+namespace Theme.API.Tests.Themes.GetThemes;
 
 public class GetThemesEndpointTests : IClassFixture<MartenTestWebApplicationFactory<Program>>
 {

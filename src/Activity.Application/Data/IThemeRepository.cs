@@ -9,5 +9,5 @@ public interface IThemeRepository : IAsyncRepository<Theme>
     Task<Domain.Models.Activity> CreateThemeActivityAsync(Domain.Models.Activity activity);
     Task<long> GetThemeActivitiesLongCountAsync(CancellationToken cancellationToken);
     void UpdateThemeActivity(Domain.Models.Activity activity);
-    void RemoveThemeActivity(Domain.Models.Activity activity);
+    void DeleteThemeActivity(Domain.Models.Activity activity);
 }

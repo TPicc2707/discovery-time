@@ -1,4 +1,7 @@
-﻿namespace Theme.API.Tests.Themes.CreateTheme;
+﻿using Activity.Domain.Events;
+using MassTransit;
+
+namespace Theme.API.Tests.Themes.CreateTheme;
 
 public class CreateThemeHandlerTests
 {
@@ -22,8 +25,10 @@ public class CreateThemeHandlerTests
         var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeCreateEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeCreateEvent>(), _mockingFramework.GetObject<CancellationToken>() });
 
-        var handler = new CreateThemeHandler(mockDocumentSession);
+        var handler = new CreateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act
         var result = await handler.Handle(command, new CancellationToken());
@@ -43,10 +48,12 @@ public class CreateThemeHandlerTests
         var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeCreateEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeCreateEvent>(), _mockingFramework.GetObject<CancellationToken>() });
 
         _mockingFramework.SetupThrowsException(mockDocumentSession, x => x.Store(_mockingFramework.GetObject<Models.Theme>()), new ArgumentNullException());
 
-        var handler = new CreateThemeHandler(mockDocumentSession);
+        var handler = new CreateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act/Assert
         await Assert.ThrowsAsync<ArgumentNullException>(() => handler.Handle(command, new CancellationToken()));
@@ -59,10 +66,12 @@ public class CreateThemeHandlerTests
         var command = new CreateThemeCommand(_faker.Random.String(20), 1, _faker.Random.String(2), DateTime.UtcNow, DateTime.UtcNow.AddDays(10), "Tester", "Tester");
         var expected = "Foo";
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeCreateEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeCreateEvent>(), _mockingFramework.GetObject<CancellationToken>() });
 
         _mockingFramework.SetupThrowsException(mockDocumentSession, x => x.SaveChangesAsync(_mockingFramework.GetObject<CancellationToken>()), new Exception(expected));
 
-        var handler = new CreateThemeHandler(mockDocumentSession);
+        var handler = new CreateThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act/Assert
         await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, new CancellationToken()));

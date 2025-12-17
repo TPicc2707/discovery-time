@@ -7,11 +7,11 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
 
     public BaseRepository(IApplicationDbContext dbContext, ILogger<T> logger)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
+        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<T> AddAsync(T entity)
+    public virtual async Task<T> AddAsync(T entity)
     {
         if(dbContext is DbContext context)
         {
@@ -39,7 +39,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
 
     }
 
-    public void Delete(T entity)
+    public virtual void Delete(T entity)
     {
         if (dbContext is DbContext context)
         {
@@ -60,7 +60,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         }
     }
 
-    public async Task<IReadOnlyList<T>> GetAllAsync()
+    public virtual async Task<IReadOnlyList<T>> GetAllAsync()
     {
         if (dbContext is DbContext context)
         {
@@ -80,7 +80,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         }
     }
 
-    public async Task<T> GetByIdAsync<TValue>(TValue id, CancellationToken cancellationToken)
+    public virtual async Task<T> GetByIdAsync<TValue>(TValue id, CancellationToken cancellationToken)
     {
         if (dbContext is DbContext context)
         {
@@ -105,7 +105,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         }
     }
 
-    public void Update(T entity)
+    public virtual void Update(T entity)
     {
         if (dbContext is DbContext context)
         {

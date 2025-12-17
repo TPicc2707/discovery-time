@@ -57,7 +57,10 @@ public class CreateThemeEndpointTests : IClassFixture<MartenTestWebApplicationFa
 
 
         //Act/Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() => _httpClient.PostAsync("/themes", _factory.GetJsonStringContent(request)));
+        var exception = await Record.ExceptionAsync(() => _httpClient.PostAsync("/themes", _factory.GetJsonStringContent(request)));
+        
+        Assert.NotNull(exception);
+        Assert.IsType<InvalidOperationException>(exception);
     }
 
     [Fact]

@@ -6,7 +6,7 @@ public class GetActivitiesByThemeId : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("activites/theme/{id}", async (Guid id, ISender sender) =>
+        app.MapGet("activities/theme/{id}", async (Guid id, ISender sender) =>
         {
             var result = await sender.Send(new GetActivitiesByThemeIdQuery(id));
 

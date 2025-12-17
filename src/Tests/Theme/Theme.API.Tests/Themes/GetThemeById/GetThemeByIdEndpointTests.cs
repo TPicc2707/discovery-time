@@ -1,4 +1,7 @@
-﻿namespace Theme.API.Tests.Themes.GetThemeById;
+﻿using Discovery.Time.Tests.Data.MockData;
+using MassTransit;
+
+namespace Theme.API.Tests.Themes.GetThemeById;
 
 public class GetThemeByIdEndpointTests : IClassFixture<MartenTestWebApplicationFactory<Program>>
 {

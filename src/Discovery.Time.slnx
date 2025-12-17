@@ -19,6 +19,12 @@
     <Project Path="Services/Theme/Theme.API/Theme.API.csproj" Id="b3565235-06d4-4dd8-a5a0-0041c4aeef3f" />
   </Folder>
   <Folder Name="/Tests/" />
+  <Folder Name="/Tests/Activity/">
+    <Project Path="Tests/Activity/Activity.API.Tests/Activity.API.Tests.csproj" Id="ba330fb5-9947-4592-a865-af0887ed2123" />
+    <Project Path="Tests/Activity/Activity.Application.Tests/Activity.Application.Tests.csproj" Id="4a8b8d09-a150-49c8-8ae4-b7133078e7b4" />
+    <Project Path="Tests/Activity/Activity.Domain.Tests/Activity.Domain.Tests.csproj" Id="4f387ccf-2124-495e-b929-e6c9d162dc19" />
+    <Project Path="Tests/Activity/Activity.Infrastructure.Tests/Activity.Infrastructure.Tests.csproj" Id="d24bd84b-457d-4edc-8ed4-dc7acade196c" />
+  </Folder>
   <Folder Name="/Tests/Common/">
     <Project Path="Tests/Common/Discovery.Time.Tests.Data/Discovery.Time.Tests.Data.csproj" Id="3dbf3136-2b6f-4879-bb99-8aa9ec691b20" />
   </Folder>

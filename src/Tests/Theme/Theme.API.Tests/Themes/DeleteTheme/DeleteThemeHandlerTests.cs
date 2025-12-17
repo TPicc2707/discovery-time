@@ -1,4 +1,8 @@
-﻿namespace Theme.API.Tests.Themes.DeleteTheme;
+﻿using Activity.Domain.Events;
+using BuildingBlocks.Messaging.Events;
+using MassTransit;
+
+namespace Theme.API.Tests.Themes.DeleteTheme;
 
 public class DeleteThemeHandlerTests
 {
@@ -20,7 +24,10 @@ public class DeleteThemeHandlerTests
         var command = new DeleteThemeCommand(Guid.NewGuid());
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
-        var handler = new DeleteThemeHandler(mockDocumentSession);
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeDeletionEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeDeletionEvent>(), _mockingFramework.GetObject<CancellationToken>() });
+
+        var handler = new DeleteThemeHandler(mockDocumentSession, mockPublishEndpoint);
         var expected = true;
 
         //Act
@@ -42,10 +49,13 @@ public class DeleteThemeHandlerTests
         var command = new DeleteThemeCommand(Guid.NewGuid());
 
         var mockDocumentSession = _mockingFramework.InitializeMockedClass<IDocumentSession>(new object[] { });
+        var mockPublishEndpoint = _mockingFramework.InitializeMockedClass<IPublishEndpoint>(new object[] { });
+        _mockingFramework.SetupReturnNoneResult(mockPublishEndpoint, x => x.Publish(_mockingFramework.GetObject<ThemeDeletionEvent>(), _mockingFramework.GetObject<CancellationToken>()), new object[] { _mockingFramework.GetObject<ThemeDeletionEvent>(), _mockingFramework.GetObject<CancellationToken>() });
+
         var expected = "Foo";
         _mockingFramework.SetupThrowsException(mockDocumentSession, x => x.SaveChangesAsync(_mockingFramework.GetObject<CancellationToken>()), new Exception(expected));
 
-        var handler = new DeleteThemeHandler(mockDocumentSession);
+        var handler = new DeleteThemeHandler(mockDocumentSession, mockPublishEndpoint);
 
         //Act/Assert
         await Assert.ThrowsAsync<Exception>(() => handler.Handle(command, new CancellationToken()));

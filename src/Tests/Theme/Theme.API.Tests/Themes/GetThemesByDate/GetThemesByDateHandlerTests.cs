@@ -1,4 +1,6 @@
-﻿namespace Theme.API.Tests.Themes.GetThemesByDate;
+﻿using Discovery.Time.Tests.Data.MockData;
+
+namespace Theme.API.Tests.Themes.GetThemesByDate;
 
 public class GetThemesByDateHandlerTests : IClassFixture<MartenTestWebApplicationFactory<Program>>
 {

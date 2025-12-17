@@ -6,7 +6,7 @@ public record ActivityDetails
     public string Url { get; } = default!;
     public DateTime Date { get; } = default!;
 
-    protected ActivityDetails() { }
+    public ActivityDetails() { }
 
     private ActivityDetails(string description, string url, DateTime date)
     {

@@ -12,7 +12,7 @@ public class DeleteActivityHandler(IUnitOfWork unitOfWork)
         if (activity is null)
             throw new ActivityNotFoundException(command.Id);
 
-        unitOfWork.Theme.RemoveThemeActivity(activity);
+        unitOfWork.Theme.DeleteThemeActivity(activity);
 
         await unitOfWork.Complete(cancellationToken);
 
