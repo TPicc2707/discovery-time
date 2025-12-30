@@ -1,4 +1,6 @@
-﻿namespace Activity.Application;
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Activity.Application;
 
 public static class DependencyInjection
 {

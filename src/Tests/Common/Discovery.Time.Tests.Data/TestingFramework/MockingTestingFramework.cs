@@ -62,6 +62,12 @@ public class MockingTestingFramework : IMockNSubstituteMethods, IMockMethods
         return obj;
     }
 
+    public T SetupThrowsException<T, TResult>(T obj, Expression<Action<T>> expression, Exception exception) where T : class
+    {
+        obj.When(expression.Compile()).Throw(exception);
+        return obj;
+    }
+
     public T SetupThrowsException<T, TResult>(T obj, Expression<Func<T, Task<TResult>>> expression, object[] parameters, Exception exception) where T : class
     {
         Exception exception2 = exception;

@@ -1,0 +1,10 @@
+﻿global using Activity.Application.Data;
+global using Activity.Domain.ValueObjects;
+global using Activity.Infrastructure.Data;
+global using Activity.Infrastructure.Repositories;
+global using Bogus;
+global using Discovery.Time.Tests.Data.MockData;
+global using Discovery.Time.Tests.Data.TestingFramework;
+global using Microsoft.Data.Sqlite;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Logging;

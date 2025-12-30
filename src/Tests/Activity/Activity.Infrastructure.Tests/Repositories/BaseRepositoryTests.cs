@@ -1,15 +1,4 @@
-﻿using Activity.Application.Data;
-using Activity.Domain.ValueObjects;
-using Activity.Infrastructure.Data;
-using Activity.Infrastructure.Repositories;
-using Bogus;
-using Discovery.Time.Tests.Data.MockData;
-using Discovery.Time.Tests.Data.TestingFramework;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace Activity.Infrastructure.Tests.Repositories;
+﻿namespace Activity.Infrastructure.Tests.Repositories;
 
 public class BaseRepositoryTests : IAsyncLifetime
 {

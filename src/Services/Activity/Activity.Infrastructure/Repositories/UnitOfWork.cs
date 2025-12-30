@@ -15,7 +15,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
     public IThemeRepository Theme { get; private set; } = default!;
 
-    public async Task<int> Complete(CancellationToken cancellationToken)
+    public virtual async Task<int> Complete(CancellationToken cancellationToken)
     {
         try
         {

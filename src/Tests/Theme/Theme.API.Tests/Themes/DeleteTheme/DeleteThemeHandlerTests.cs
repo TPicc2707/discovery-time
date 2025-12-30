@@ -15,7 +15,7 @@ public class DeleteThemeHandlerTests
         _deleteThemeCommandValidator = new DeleteThemeCommandValidator();
     }
 
-    #region DeleteThemeValidation Tests
+    #region DeleteThemeHandler Tests
 
     [Fact]
     public async Task DeleteThemeHandler_Handle_WhenCalled_Should_Return_Expected_Result()
