@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ApiGateway\Discovery.Time.ApiGateway\Discovery.Time.ApiGateway.csproj" />
     <ProjectReference Include="..\..\Services\Activity\Activity.API\Activity.API.csproj" />
     <ProjectReference Include="..\..\Services\Theme\Theme.API\Theme.API.csproj" />
   </ItemGroup>

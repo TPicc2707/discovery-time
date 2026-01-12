@@ -62,4 +62,19 @@ var activity = builder
             .WaitFor(rabbitmq);
             //.WaitFor(keycloak);
 
+var apiGateway = builder
+                 .AddProject<Projects.Discovery_Time_ApiGateway>("discovery-time-apigateway",
+                 configure: static project =>
+                 {
+                     project.ExcludeLaunchProfile = true;
+                     project.ExcludeKestrelEndpoints = false;
+                 })
+                 .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
+                 .WithHttpEndpoint(port: 6002)
+                 .WithHttpsEndpoint(port: 6062)
+                 .WithReference(theme)
+                 .WithReference(activity)
+                 .WaitFor(theme)
+                 .WaitFor(activity);
+
 builder.Build().Run();

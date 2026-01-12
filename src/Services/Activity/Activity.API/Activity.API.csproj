@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Activity.API.Tests" />
     <InternalsVisibleTo Include="Activity.Application.Tests" />
   </ItemGroup>
 

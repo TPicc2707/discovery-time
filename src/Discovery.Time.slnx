@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/ApiGateway/" />
+  <Folder Name="/ApiGateway/">
+    <Project Path="ApiGateway/Discovery.Time.ApiGateway/Discovery.Time.ApiGateway.csproj" Id="41271efb-51d2-4a50-94cb-d2aaf0505f3e" />
+  </Folder>
   <Folder Name="/Aspire/">
     <Project Path="Aspire/Discovery.Time.AppHost/Discovery.Time.AppHost.csproj" Id="777e08e3-b208-41e7-949b-12233e6919d6" />
     <Project Path="Aspire/Discovery.Time.ServiceDefaults/Discovery.Time.ServiceDefaults.csproj" Id="348b3d74-607c-47ad-845f-043d79ea87d5" />
